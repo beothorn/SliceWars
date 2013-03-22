@@ -23,7 +23,7 @@ import com.skype.Stream;
 
 public class SkypeClient {
 	
-	public static final String APPNAME = "Slice wars";
+	public static final String APPNAME = "Slicewars";
 	
 	public static void main(String[] args) throws Exception {
         Skype.setDebug(true);
