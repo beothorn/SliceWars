@@ -1,15 +1,10 @@
 package skype;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Random;
 
 import javax.swing.JOptionPane;
-
-import org.apache.commons.lang.UnhandledException;
 
 import sliceWars.RemoteInvite;
 import sliceWars.gui.GuiPlayer;
@@ -20,6 +15,7 @@ import com.skype.ApplicationAdapter;
 import com.skype.Skype;
 import com.skype.SkypeException;
 import com.skype.Stream;
+import com.thoughtworks.xstream.XStream;
 
 public class SkypeClient {
 	
@@ -61,18 +57,9 @@ public class SkypeClient {
 				int randomScenariosCellsCount = 12;
 				RemoteInvite remoteInvite = new RemoteInvite(randomSeed, numberOfPlayers, lines, columns, randomScenariosCellsCount);
                 
-                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-                ObjectOutputStream oos;
-				try {
-					oos = new ObjectOutputStream(byteArrayOutputStream);
-					oos.writeObject(remoteInvite);
-					oos.close();
-				} catch (IOException e) {
-					throw new UnhandledException(e);
-				}
-				
-				String serializedInvite = new String(byteArrayOutputStream.toByteArray());
-				stream.write(serializedInvite);
+				XStream xstream = new XStream();
+				String xml = xstream.toXML(remoteInvite);
+				stream.write(xml);
 				
 				new GuiPlayer(new Player(1, 2), null, randomSeed , numberOfPlayers,lines,columns,randomScenariosCellsCount);
 

@@ -33,7 +33,7 @@ public class CellDrawer implements SelectedCallback,PlayListener{
 	public void draw(BoardCell boardCell, Graphics2D g2) {
 		FontMetrics metrics = g2.getFontMetrics(_font);
 		int playerNumber = boardCell.getOwner().getPlayerNumber();
-		g2.setColor(colors[playerNumber]);
+		g2.setColor(getColorForPlayer(playerNumber));
 		g2.fill(boardCell.getPolygon());
 		g2.setColor(Color.BLACK);
 		g2.draw(boardCell.getPolygon());
@@ -48,6 +48,12 @@ public class CellDrawer implements SelectedCallback,PlayListener{
 			g2.setColor(new Color(255,255,255,100));
 			g2.fill(boardCell.getPolygon());
 		}
+	}
+
+	private Color getColorForPlayer(int playerNumber) {
+		if(playerNumber < 0)
+			return Color.BLACK;
+		return colors[playerNumber];
 	}
 
 	@Override

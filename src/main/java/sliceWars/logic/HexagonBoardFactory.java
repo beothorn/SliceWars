@@ -42,7 +42,9 @@ public class HexagonBoardFactory {
 				col = _random.nextInt(_columns);
 				line = _random.nextInt(_lines);
 			}
-			board.remove(_boardCells[col][line]);
+//			board.remove(_boardCells[col][line]);
+			_boardCells[col][line].setDiceCount(7);
+			_boardCells[col][line].setOwner(Player.SCENARIO);
 			_boardCells[col][line] = null;
 		}
 		return board;

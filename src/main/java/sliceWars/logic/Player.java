@@ -1,6 +1,7 @@
 package sliceWars.logic;
 
 public class Player{
+	public static final Player SCENARIO = new Player(-1);
 	public static final Player EMPTY = new Player(0);
 	public static final Player PLAYER1  =  new Player(1);
 	public static final Player PLAYER2  =  new Player(2);
