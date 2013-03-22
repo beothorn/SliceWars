@@ -15,6 +15,7 @@ import com.skype.ApplicationAdapter;
 import com.skype.Skype;
 import com.skype.SkypeException;
 import com.skype.Stream;
+import com.skype.connector.Connector;
 import com.thoughtworks.xstream.XStream;
 
 public class SkypeClient {
@@ -22,8 +23,10 @@ public class SkypeClient {
 	public static final String APPNAME = "Slicewars";
 	
 	public static void main(String[] args) throws Exception {
+		Connector.getInstance().setApplicationName(APPNAME);
         Skype.setDebug(true);
         Skype.setDaemon(false);
+        
         Stream[] streams = connectToServer(APPNAME);
         
         for (int i = 0; i < 26; i++) {
