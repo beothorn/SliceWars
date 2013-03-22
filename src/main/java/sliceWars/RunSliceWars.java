@@ -10,15 +10,15 @@ import sliceWars.RemotePlayListener;
 import sliceWars.gui.GuiPlayer;
 import sliceWars.logic.Player;
 
-public class RunSliceWarsWithoutSneer implements RemotePlayListener{
+public class RunSliceWars implements RemotePlayListener{
 
 	private List<GuiPlayer> _players;
 
 	public static void main(String[] args) {
-		new RunSliceWarsWithoutSneer();
+		new RunSliceWars();
 	}
 	
-	public RunSliceWarsWithoutSneer() {
+	public RunSliceWars() {
 		Random random = new Random(Calendar.getInstance().getTimeInMillis());
 		int nextInt = random.nextInt();
 		int numberOfPlayers = 2;
