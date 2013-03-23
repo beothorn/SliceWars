@@ -110,6 +110,7 @@ public class BoardImpl implements Board{
 	}
 	
 	private int getLinkedCellCount(BoardCell boardCell,Set<BoardCell> alreadyCounted, boolean ignoreOwner,BoardCell skipCell) {
+		if(boardCell.getOwner().equals(Player.SCENARIO)) return 0;
 		if(alreadyCounted.contains(boardCell)) return 0;
 		if(boardCell.equals(skipCell)) return 0;
 		alreadyCounted.add(boardCell);
@@ -128,10 +129,6 @@ public class BoardImpl implements Board{
 			Set<BoardCell> alreadyCounted, boolean ignoreOwner,
 			BoardCell skipCell, BoardCell boardCellLinked) {
 		boolean hasSameOwnerSame = boardCellLinked.getOwner().equals(boardCell.getOwner());
-		boolean isScenario = boardCell.getOwner().equals(Player.SCENARIO);
-		if( hasSameOwnerSame || ignoreOwner){
-			
-		}
 		if(hasSameOwnerSame || ignoreOwner ){
 			return getLinkedCellCount(boardCellLinked,alreadyCounted, ignoreOwner, skipCell);
 		}
@@ -171,16 +168,27 @@ public class BoardImpl implements Board{
 	@Override
 	public boolean removingCellWillLeaveOrphans(BoardCell cell) {
 		Collection<BoardCell> boardCells = getBoardCells();
-		int originalSize = boardCells.size()-1;
+		int originalSize = boardCells.size()-1-getScenarioCount();
 		BoardCell anyCell = getCellDifferentFromThisCellOrNull(cell, boardCells);
 		boolean ignoreOwner = true;
 		int linkedCellCount = getLinkedCellCount(anyCell,new LinkedHashSet<BoardCell>(), ignoreOwner, cell);
 		return linkedCellCount != originalSize;
 	}
 
+	private int getScenarioCount() {
+		Collection<BoardCell> boardCells = getBoardCells();
+		int cellCount = 0;
+		for (BoardCell boardCell : boardCells) {
+			if(boardCell.getOwner().equals(Player.SCENARIO)){
+				cellCount++;
+			}
+		}
+		return cellCount;
+	}
+
 	private BoardCell getCellDifferentFromThisCellOrNull(BoardCell cell, Collection<BoardCell> boardCells) {
 		for (BoardCell boardCell : boardCells) {
-			if(!boardCell.equals(cell))
+			if(!boardCell.equals(cell) && !boardCell.getOwner().equals(Player.SCENARIO) )
 				return boardCell;
 		}
 		return null;
