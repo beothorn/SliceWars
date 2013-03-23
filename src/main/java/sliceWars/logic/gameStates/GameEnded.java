@@ -50,7 +50,10 @@ public class GameEnded implements GameState {
 	}
 
 	private static boolean hasMoreThanFifthPercentOfTheBoard(Player currentPlaying, Board board) {
-		return (board.getCellCountForPlayer(currentPlaying)/currentPlaying.getPlayersCount()) > board.getValidCellsCount();
+		if(!board.areaAllCellsFilledByPlayer(currentPlaying)){
+			return false;
+		}
+		return  board.getCellCountForPlayer(currentPlaying) > (board.getValidCellsCount() / currentPlaying.getPlayersCount());
 	}
 
 	private static boolean allOtherPlayersHaveZeroTerritories(Player currentPlaying, Board board) {
