@@ -17,7 +17,7 @@ public class FirstDiceDistribution implements GameState {
 		_currentPlaying = currentPlaying;
 		_board = board;
 		int playersCount = currentPlaying.getPlayersCount();
-		_totalDiceToAdd = board.getCellCount()/playersCount;
+		_totalDiceToAdd = board.getValidCellsCount()/playersCount;
 		_turnsLeft = _totalDiceToAdd;
 		_distributeDiePhase = new DiceDistribution(currentPlaying, board, 1);
 	}
