@@ -10,10 +10,12 @@ import com.skype.Skype;
 import com.skype.SkypeException;
 import com.skype.Stream;
 import com.skype.StreamAdapter;
+import com.skype.connector.Connector;
 import com.thoughtworks.xstream.XStream;
 
 public class SkypeServer {
     public static void main(String[] args) throws Exception {
+    	Connector.getInstance().setApplicationName(SkypeClient.APPNAME);
         Skype.setDebug(true);
         Skype.setDaemon(false);
         Application application = Skype.addApplication(SkypeClient.APPNAME);
