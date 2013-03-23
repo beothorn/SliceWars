@@ -51,7 +51,7 @@ public class Attack implements GameState {
 		c1.setCell(attackOutcome.attackCellAfterAttack);
 		cellAtOrNull.setCell(attackOutcome.defenseCellAfterAttack);
 		c1 = null;
-		if(checkIfWon()){
+		if(GameEnded.checkIfWon(currentPlaying, _board)){
 			gameStateContext.setState(new GameEnded(currentPlaying));
 		}
 		return new PlayOutcome(attackOutcome);
@@ -70,17 +70,6 @@ public class Attack implements GameState {
 	@Override
 	public boolean canPass() {
 		return true;
-	}
-
-	private boolean checkIfWon(){
-		Player nextPlayer = currentPlaying.next();
-		while(_board.getBiggestLinkedCellCountForPlayer(nextPlayer) == 0){
-			nextPlayer = nextPlayer.next();
-			if(nextPlayer.equals(currentPlaying)){
-				return true;
-			}
-		}
-		return false;
 	}
 	
 	@Override

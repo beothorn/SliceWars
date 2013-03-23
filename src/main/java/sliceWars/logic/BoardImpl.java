@@ -168,22 +168,20 @@ public class BoardImpl implements Board{
 	@Override
 	public boolean removingCellWillLeaveOrphans(BoardCell cell) {
 		Collection<BoardCell> boardCells = getBoardCells();
-		int originalSize = boardCells.size()-1-getScenarioCount();
+		int originalSize = getValidCellsCount()-1;
 		BoardCell anyCell = getCellDifferentFromThisCellOrNull(cell, boardCells);
 		boolean ignoreOwner = true;
 		int linkedCellCount = getLinkedCellCount(anyCell,new LinkedHashSet<BoardCell>(), ignoreOwner, cell);
 		return linkedCellCount != originalSize;
 	}
+	
+	@Override
+	public int getValidCellsCount(){
+		return getBoardCells().size()-getScenarioCount();
+	}
 
 	private int getScenarioCount() {
-		Collection<BoardCell> boardCells = getBoardCells();
-		int cellCount = 0;
-		for (BoardCell boardCell : boardCells) {
-			if(boardCell.getOwner().equals(Player.SCENARIO)){
-				cellCount++;
-			}
-		}
-		return cellCount;
+		return getCellCountForPlayer(Player.SCENARIO);
 	}
 
 	private BoardCell getCellDifferentFromThisCellOrNull(BoardCell cell, Collection<BoardCell> boardCells) {
@@ -192,6 +190,18 @@ public class BoardImpl implements Board{
 				return boardCell;
 		}
 		return null;
+	}
+
+	@Override
+	public int getCellCountForPlayer(Player player) {
+		Collection<BoardCell> boardCells = getBoardCells();
+		int cellCount = 0;
+		for (BoardCell boardCell : boardCells) {
+			if(boardCell.getOwner().equals(player)){
+				cellCount++;
+			}
+		}
+		return cellCount;
 	}
 
 }

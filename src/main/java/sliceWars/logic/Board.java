@@ -13,5 +13,7 @@ public interface Board {
 	public boolean areaAllCellsFilledByPlayer(Player currentPlaying);
 	public abstract void remove(BoardCell cell);
 	public abstract boolean removingCellWillLeaveOrphans(BoardCell cell);
+	public int getCellCountForPlayer(Player player);
+	int getValidCellsCount();
 
 }

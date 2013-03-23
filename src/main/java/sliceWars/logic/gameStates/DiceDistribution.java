@@ -37,6 +37,10 @@ public class DiceDistribution implements GameState{
 		diceCount --;
 		PlayOutcome playOutcome = new PlayOutcome(diceCount);
 		cellAtOrNull.addDie();
+		if(GameEnded.checkIfWon(_currentPlaying, _board)){
+			gameStateContext.setState(new GameEnded(_currentPlaying));
+			return playOutcome;
+		}
 		if(diceCount == 0 || _board.areaAllCellsFilledByPlayer(_currentPlaying)){
 			gameStateContext.setState(new Attack(_currentPlaying, _board));
 		}

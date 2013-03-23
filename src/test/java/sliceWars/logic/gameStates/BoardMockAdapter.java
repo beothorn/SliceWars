@@ -52,4 +52,14 @@ public class BoardMockAdapter implements Board{
 	public boolean removingCellWillLeaveOrphans(BoardCell cell) {
 		return false;
 	}
+
+	@Override
+	public int getCellCountForPlayer(Player player) {
+		return 0;
+	}
+
+	@Override
+	public int getValidCellsCount() {
+		return 0;
+	}
 }
