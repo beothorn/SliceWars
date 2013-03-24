@@ -18,10 +18,8 @@ import com.thoughtworks.xstream.XStream;
 
 public class SkypeClient {
 	
-	public static final String APPNAME = "Slicewars";
-
 	public static void connectTo(String serverContactId) throws SkypeException, InterruptedException {
-		Connector.getInstance().setApplicationName(APPNAME);
+		Connector.getInstance().setApplicationName(SkypeMain.APPNAME);
         Skype.setDebug(true);
         Skype.setDaemon(false);
         
@@ -45,7 +43,7 @@ public class SkypeClient {
     }
 
     private static Stream[] connectToServer(String serverContactId) throws SkypeException {
-        Application application = Skype.addApplication(APPNAME);
+        Application application = Skype.addApplication(SkypeMain.APPNAME);
         application.addApplicationListener(new ApplicationAdapter() {
             @Override
             public void connected(Stream stream) throws SkypeException {

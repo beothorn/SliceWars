@@ -27,10 +27,10 @@ public class SkypeServer {
     }
 
 	private static void awaitConnection() throws SkypeException {
-		Connector.getInstance().setApplicationName(SkypeClient.APPNAME);
+		Connector.getInstance().setApplicationName(SkypeMain.APPNAME);
         Skype.setDebug(true);
         Skype.setDaemon(false);
-        Application application = Skype.addApplication(SkypeClient.APPNAME);
+        Application application = Skype.addApplication(SkypeMain.APPNAME);
         
         final JFrame jFrame = new JFrame();
         jFrame.setLayout(new BorderLayout());

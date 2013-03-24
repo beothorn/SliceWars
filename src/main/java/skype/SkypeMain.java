@@ -10,13 +10,16 @@ import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicReference;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JList;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 
 import org.apache.commons.lang.UnhandledException;
+import org.apache.commons.lang.exception.ExceptionUtils;
 
 import com.skype.Friend;
 import com.skype.Skype;
@@ -27,8 +30,28 @@ public class SkypeMain {
 	public static void main(String[] args) throws SkypeException, InterruptedException {
 		Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
 		    public void uncaughtException(Thread t, Throwable e) {
-				JOptionPane.showMessageDialog(null,e.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
-		        System.exit(1);
+				final JFrame jFrame = new JFrame("Erro");
+				jFrame.setLayout(new BorderLayout());
+				jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+				
+				JLabel jLabel = new JLabel("Erro");
+				if(e instanceof com.skype.NotAttachedException){
+					jLabel.setText("Skype is closed, offline or "+APPNAME+" wasn't authorized to use skype.");
+				}
+				jFrame.add(jLabel,BorderLayout.NORTH);
+				
+				JTextArea jTextArea = new JTextArea();
+				jTextArea.setEditable(false);
+				jTextArea.setText(e.getMessage()+"\n"+ExceptionUtils.getFullStackTrace(e));
+				jFrame.add(jTextArea,BorderLayout.CENTER);
+				JButton close = new JButton("Close application");
+				close.addActionListener(new ActionListener(){@Override public void actionPerformed(ActionEvent e) {
+						jFrame.dispose();
+				}});
+				jFrame.add(close, BorderLayout.SOUTH);
+				
+				jFrame.pack();
+				jFrame.setVisible(true);
 		    }
 		});
 		
@@ -91,4 +114,6 @@ public class SkypeMain {
         
         SkypeClient.connectTo(opponentId.get());
 	}
+
+	public static final String APPNAME = "Slicewars";
 }
