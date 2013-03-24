@@ -33,6 +33,11 @@ public class FirstDiceBatchDistributionTest {
 			public int getCellCount() {
 				return boardCellCount;
 			}
+			
+			@Override
+			public int getValidCellsCount() {
+				return boardCellCount;
+			}
 		});
 		_gameStateContextMock = new GameStateContextMock(){@Override public Phase getPhase() {
 				if(_state == null)

@@ -13,6 +13,7 @@ public class BackgroundDrawer implements Drawer{
 	
 	public BackgroundDrawer() {
 		InputStream resourceAsStream = BackgroundDrawer.class.getResourceAsStream("back.png");
+		if(resourceAsStream == null) return;
 		try {
 			_background = ImageIO.read(resourceAsStream);
 		} catch (IOException e1) {
@@ -22,6 +23,7 @@ public class BackgroundDrawer implements Drawer{
 	
 	@Override
 	public void draw(Graphics2D g2) {
+		if(_background == null) return;
 		Rectangle clipBounds = g2.getClipBounds();
 		for (int x=0; x<= clipBounds.getWidth()/_background.getWidth(); x++){
 			for (int y=0; y<= clipBounds.getHeight()/_background.getHeight(); y++){
