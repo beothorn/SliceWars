@@ -23,11 +23,8 @@ import com.skype.connector.Connector;
 import com.thoughtworks.xstream.XStream;
 
 public class SkypeServer {
-    public static void main(String[] args) throws SkypeException {
-    	awaitConnection();
-    }
 
-	private static void awaitConnection() throws SkypeException {
+	public static void awaitConnection() throws SkypeException {
 		Connector.getInstance().setApplicationName(SkypeMain.APPNAME);
         Skype.setDebug(true);
         Skype.setDaemon(false);

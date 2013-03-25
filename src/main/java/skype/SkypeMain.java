@@ -7,8 +7,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.atomic.AtomicReference;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -75,13 +73,15 @@ public class SkypeMain {
 		buttons.setLayout(new FlowLayout());
 		
 		Button buttonPlay = new Button("Play");
-		final AtomicReference<String> opponentId = new AtomicReference<String>();
-		final CountDownLatch countDownLatch = new CountDownLatch(1);
 		buttonPlay.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				opponentId.set(contactList.getSelectedValue());
-				countDownLatch.countDown();
+				String opponentId = contactList.getSelectedValue();
+				try {
+					SkypeClient.connectTo(opponentId);
+				} catch (SkypeException | InterruptedException ex) {
+					throw new UnhandledException(ex);
+				}
 			}
 		});
 		buttons.add(buttonPlay);
@@ -92,11 +92,10 @@ public class SkypeMain {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					jFrame.dispose();
-					SkypeServer.main(null);
+					SkypeServer.awaitConnection();
 				} catch (SkypeException ex) {
 					throw new UnhandledException(ex);
 				}
-				countDownLatch.countDown();
 			}
 		});
 		buttons.add(buttonServer);
@@ -106,13 +105,6 @@ public class SkypeMain {
 		jFrame.pack();
         jFrame.setVisible(true);
         
-        try {
-			countDownLatch.await();
-		} catch (InterruptedException e1) {
-			throw new UnhandledException(e1);
-		}
-        
-        SkypeClient.connectTo(opponentId.get());
 	}
 
 	public static final String APPNAME = "Slicewars";
