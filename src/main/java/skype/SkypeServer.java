@@ -9,6 +9,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 import sliceWars.RemoteInvite;
+import sliceWars.RemotePlay;
 import sliceWars.gui.GuiPlayer;
 import sliceWars.logic.Player;
 
@@ -50,13 +51,23 @@ public class SkypeServer {
             @Override
             public void connected(Stream stream) throws SkypeException {
                 System.out.println("connected:" + stream.getId());
+                final SkypePlayBroadcaster skypePlayBroadcaster = new SkypePlayBroadcaster();
+                skypePlayBroadcaster.setSkypePlayerStream(stream);
                 jFrame.dispose();
                 stream.addStreamListener(new StreamAdapter() {
                     @Override
                     public void textReceived(String receivedText) throws SkypeException {
                     	XStream xstream = new XStream();
-                    	RemoteInvite invite = (RemoteInvite) xstream.fromXML(receivedText);
-						new GuiPlayer(new Player(2, 2), null, invite.get_randomSeed() , invite.get_numberOfPlayers(),invite.get_lines(),invite.get_columns(),invite.get_randomlyScenarioCells());
+                    	Object received = xstream.fromXML(receivedText);
+                    	if(received instanceof RemoteInvite){
+                    		RemoteInvite invite = (RemoteInvite) received;
+                    		GuiPlayer guiPlayer = new GuiPlayer(new Player(2, 2), skypePlayBroadcaster, invite.get_randomSeed() , invite.get_numberOfPlayers(),invite.get_lines(),invite.get_columns(),invite.get_randomlyScenarioCells());
+                    		skypePlayBroadcaster.setLocalPlayer(guiPlayer);
+                    	}
+                    	if(received instanceof RemotePlay){
+                    		RemotePlay play = (RemotePlay) received;
+                    		skypePlayBroadcaster.play(play);
+                    	}
                     }
                 });
             }

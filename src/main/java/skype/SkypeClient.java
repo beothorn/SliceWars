@@ -5,6 +5,7 @@ import java.util.Calendar;
 import java.util.Random;
 
 import sliceWars.RemoteInvite;
+import sliceWars.RemotePlay;
 import sliceWars.gui.GuiPlayer;
 import sliceWars.logic.Player;
 
@@ -13,6 +14,7 @@ import com.skype.ApplicationAdapter;
 import com.skype.Skype;
 import com.skype.SkypeException;
 import com.skype.Stream;
+import com.skype.StreamAdapter;
 import com.skype.connector.Connector;
 import com.thoughtworks.xstream.XStream;
 
@@ -44,6 +46,7 @@ public class SkypeClient {
 
     private static Stream[] connectToServer(String serverContactId) throws SkypeException {
         Application application = Skype.addApplication(SkypeMain.APPNAME);
+        final SkypePlayBroadcaster skypePlayBroadcaster = new SkypePlayBroadcaster();
         application.addApplicationListener(new ApplicationAdapter() {
             @Override
             public void connected(Stream stream) throws SkypeException {
@@ -60,7 +63,18 @@ public class SkypeClient {
 				String xml = xstream.toXML(remoteInvite);
 				stream.write(xml);
 				
-				new GuiPlayer(new Player(1, 2), null, randomSeed , numberOfPlayers,lines,columns,randomScenariosCellsCount);
+				stream.addStreamListener(new StreamAdapter() {
+                    @Override
+                    public void textReceived(String receivedText) throws SkypeException {
+                    	XStream xstream = new XStream();
+                    	RemotePlay play = (RemotePlay)xstream.fromXML(receivedText);
+                    	skypePlayBroadcaster.play(play);
+                    }
+                });
+				
+				skypePlayBroadcaster.setSkypePlayerStream(stream);
+				GuiPlayer guiPlayer = new GuiPlayer(new Player(1, 2), skypePlayBroadcaster, randomSeed , numberOfPlayers,lines,columns,randomScenariosCellsCount);
+				skypePlayBroadcaster.setLocalPlayer(guiPlayer);
 
             }
 
