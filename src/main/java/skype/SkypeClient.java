@@ -50,7 +50,7 @@ public class SkypeClient {
                     public void textReceived(String receivedText) throws SkypeException {
                     	XStream xstream = new XStream();
                     	RemotePlay play = (RemotePlay)xstream.fromXML(receivedText);
-                    	skypePlayBroadcaster.play(play);
+                    	skypePlayBroadcaster.remotePlay(play);
                     }
                 });
 				

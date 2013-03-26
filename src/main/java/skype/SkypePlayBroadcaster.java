@@ -19,13 +19,10 @@ public class SkypePlayBroadcaster implements RemotePlayListener{
 	
 	public void setSkypePlayerStream(Stream stream){
 		this.stream = stream;
-		
 	}
 	
 	@Override
 	public void play(RemotePlay play) {
-		if(local != null)
-			local.play(play);
 		if(stream != null){
 			XStream xstream = new XStream();
 			String xml = xstream.toXML(play);
@@ -35,6 +32,11 @@ public class SkypePlayBroadcaster implements RemotePlayListener{
 				throw new RuntimeException(e);
 			}
 		}
+	}
+	
+	public void remotePlay(RemotePlay play) {
+		if(local != null)
+			local.play(play);
 	}
 
 }

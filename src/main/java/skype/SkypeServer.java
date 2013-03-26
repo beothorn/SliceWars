@@ -63,7 +63,7 @@ public class SkypeServer {
                     	}
                     	if(received instanceof RemotePlay){
                     		RemotePlay play = (RemotePlay) received;
-                    		skypePlayBroadcaster.play(play);
+                    		skypePlayBroadcaster.remotePlay(play);
                     	}
                     }
                 });
