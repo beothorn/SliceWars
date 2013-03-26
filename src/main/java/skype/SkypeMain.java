@@ -12,6 +12,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -22,6 +23,7 @@ import org.apache.commons.lang.exception.ExceptionUtils;
 import com.skype.Friend;
 import com.skype.Skype;
 import com.skype.SkypeException;
+import com.skype.Stream;
 
 public class SkypeMain {
 
@@ -78,6 +80,7 @@ public class SkypeMain {
 			public void actionPerformed(ActionEvent e) {
 				String opponentId = contactList.getSelectedValue();
 				try {
+					jFrame.dispose();
 					SkypeClient.connectTo(opponentId);
 				} catch (SkypeException | InterruptedException ex) {
 					throw new UnhandledException(ex);
@@ -108,4 +111,9 @@ public class SkypeMain {
 	}
 
 	public static final String APPNAME = "Slicewars";
+
+	public static void showDisconnectedMessageAndExit(Stream stream) {
+		JOptionPane.showMessageDialog(null,stream.getId()+" disconnected from "+stream.getApplication().getName()+".");
+		System.exit(0);
+	}
 }

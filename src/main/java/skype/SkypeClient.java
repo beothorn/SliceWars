@@ -1,6 +1,5 @@
 package skype;
 
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Random;
 
@@ -25,32 +24,15 @@ public class SkypeClient {
         Skype.setDebug(true);
         Skype.setDaemon(false);
         
-        Stream[] streams = connectToServer(serverContactId);
-        
-        for (int i = 0; i < 26; i++) {
-            for (Stream stream: streams) {
-                stream.write(createData(i + 1, (char)('a' + i)));
-            }
-        }
-        Thread.sleep(5000);
-        for (Stream stream: streams) {
-            stream.disconnect();
-        }
+        connectToServer(serverContactId);
 	}
 
-    private static String createData(int length, char character) {
-        byte[] data = new byte[length];
-        Arrays.fill(data, (byte)character);
-        return new String(data);
-    }
-
-    private static Stream[] connectToServer(String serverContactId) throws SkypeException {
+    private static void connectToServer(String serverContactId) throws SkypeException {
         Application application = Skype.addApplication(SkypeMain.APPNAME);
         final SkypePlayBroadcaster skypePlayBroadcaster = new SkypePlayBroadcaster();
         application.addApplicationListener(new ApplicationAdapter() {
             @Override
             public void connected(Stream stream) throws SkypeException {
-                printApplicationAndStreamName("connected:", stream);
                 Random random = new Random(Calendar.getInstance().getTimeInMillis());
         		int randomSeed = random.nextInt();
                 int numberOfPlayers = 2;
@@ -80,15 +62,10 @@ public class SkypeClient {
 
             @Override
             public void disconnected(Stream stream) throws SkypeException {
-                printApplicationAndStreamName("disconnected:", stream);
-            }
-
-            private void printApplicationAndStreamName(String header, Stream stream) {
-                System.out.println(header + stream.getApplication().getName() + "-" + stream.getId());
+            	SkypeMain.showDisconnectedMessageAndExit(stream);
             }
         });
-        
                 
-		return application.connect(serverContactId);
+		application.connect(serverContactId);
     }
 }

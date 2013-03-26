@@ -68,6 +68,12 @@ public class SkypeServer {
                     }
                 });
             }
+            
+            @Override
+            public void disconnected(Stream stream) throws SkypeException {
+            	SkypeMain.showDisconnectedMessageAndExit(stream);
+            }
+
         });
 	}
 }
