@@ -3,7 +3,7 @@ SliceWars
 
 A board game based on dice wars.
 
-To play you'll need skype.
+To play you'll need skype and the latest java.
 
 https://docs.google.com/file/d/0B0QLHCMQb769RGRWcllwUHVTcGc/edit?usp=sharing
 
