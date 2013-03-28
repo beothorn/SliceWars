@@ -9,12 +9,14 @@ public class Cell {
 	}
 	
 	public boolean canAddDie(){
-		return getDiceCount()+1<=MAX_DICE;
+		boolean didNotExcedMaximunDiceValue = getDiceCount()+1<=MAX_DICE;
+		boolean isNotScenario = !owner.equals(Player.SCENARIO);
+		return didNotExcedMaximunDiceValue && isNotScenario;
 	}
 	
 	public void addDie() {
+		if(!canAddDie()) throw new RuntimeException("Can't add die");
 		setDiceCount(getDiceCount() + 1);
-		if(getDiceCount()>MAX_DICE)setDiceCount(MAX_DICE);
 	}
 
 	public void setDiceCount(int newDiceCount) {
