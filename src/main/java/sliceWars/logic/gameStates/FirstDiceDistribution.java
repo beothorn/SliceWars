@@ -24,11 +24,12 @@ public class FirstDiceDistribution implements GameState {
 
 	@Override
 	public PlayOutcome play(final int x,final int y,final GameStateContext gameStateContext){
-		_distributeDiePhase.play(x, y, gameStateContext);
+		PlayOutcome playOutcome = _distributeDiePhase.play(x, y, gameStateContext);
+		if(playOutcome == null) return new PlayOutcome(_turnsLeft);
 		if(_currentPlaying.isLastPlayer()) _turnsLeft--;
 		if(_turnsLeft == 0){
 			gameStateContext.setState(new FirstAttacks(_currentPlaying.next(), _board));
-			return new PlayOutcome(0);			
+			return new PlayOutcome(_turnsLeft);
 		}
 			
 		gameStateContext.setState(this);
