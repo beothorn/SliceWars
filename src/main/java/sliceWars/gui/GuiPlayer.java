@@ -10,16 +10,17 @@ import java.util.Random;
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 
-import sliceWars.RemotePlay;
-import sliceWars.RemotePlayListener;
 import sliceWars.logic.Player;
+import sliceWars.remote.messages.AllPlayersInvitesResult;
+import sliceWars.remote.messages.RemotePlay;
+import sliceWars.remote.messages.GameMessageListener;
 
-public class GuiPlayer implements RemotePlayListener {
+public class GuiPlayer implements GameMessageListener {
 	
 	private GamePanel _gamePanel;
 	private JFrame frame;
 
-	public GuiPlayer(final Player windowOwner, final RemotePlayListener remotePlayer,
+	public GuiPlayer(final Player windowOwner, final GameMessageListener remotePlayer,
 					 final long randomSeed, final int numberOfPlayers, final int lines,
 					 final int columns, final int randomlyRemoveCells) {
 		Random random = new Random(randomSeed);
@@ -48,5 +49,10 @@ public class GuiPlayer implements RemotePlayListener {
 
 	public void setKillOnClose(){
 		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+	}
+
+	@Override
+	public void allPlayersInviteResult( AllPlayersInvitesResult allPlayersInvitesResult) {
+		throw new RuntimeException("NOT IMPLEMENTED");
 	}
 }

@@ -5,12 +5,13 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Random;
 
-import sliceWars.RemotePlay;
-import sliceWars.RemotePlayListener;
 import sliceWars.gui.GuiPlayer;
 import sliceWars.logic.Player;
+import sliceWars.remote.messages.AllPlayersInvitesResult;
+import sliceWars.remote.messages.RemotePlay;
+import sliceWars.remote.messages.GameMessageListener;
 
-public class RunSliceWars implements RemotePlayListener{
+public class RunSliceWars implements GameMessageListener{
 
 	private List<GuiPlayer> _players;
 
@@ -46,5 +47,11 @@ public class RunSliceWars implements RemotePlayListener{
 		for (GuiPlayer guiPlayer : _players) {
 			guiPlayer.play(play);
 		}
+	}
+
+	@Override
+	public void allPlayersInviteResult(
+			AllPlayersInvitesResult allPlayersInvitesResult) {
+		throw new RuntimeException("NOT IMPLEMENTED");
 	}
 }
