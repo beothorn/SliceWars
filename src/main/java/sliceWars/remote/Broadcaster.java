@@ -29,10 +29,6 @@ public class Broadcaster implements GameMessageListener{
 		sendPlayToOtherPlayers(play);
 		sendPlayToMyself(play);
 	}
-	
-	public void receivesRemotePlay(RemotePlay play) {
-		sendPlayToMyself(play);
-	}
 
 	private void sendPlayToMyself(RemotePlay play) {
 		local.play(play);

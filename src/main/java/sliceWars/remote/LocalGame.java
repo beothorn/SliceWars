@@ -34,7 +34,7 @@ public class LocalGame implements Game{
 	}
 	
 	public void play(RemotePlay play) {
-		_broadcaster.receivesRemotePlay(play);
+		_broadcaster.play(play);
 	}
 
 	public void invite(Invitation invitation) {
