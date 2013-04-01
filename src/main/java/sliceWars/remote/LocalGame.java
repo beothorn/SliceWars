@@ -86,6 +86,7 @@ public class LocalGame implements Game{
 			return;
 		}
 		if(answersToInvites.size() == _broadcaster.getPlayerCount()){
+			showGameFrameAndSetAsLocalGame();
 			_broadcaster.allPlayersInviteResult(new AllPlayersInvitesResult(true));
 			return;
 		}
