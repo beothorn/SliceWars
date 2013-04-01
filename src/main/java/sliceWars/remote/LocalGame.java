@@ -62,15 +62,17 @@ public class LocalGame implements Game{
 	}
 	
 
-	public void setServerGame(final Game game, final int playerCount, final int randomSeed, final int randomlyScenarioCells, final int lines, final int columns){	
-		
-		this.serverGame = game;
+	public void setGameSettings(final int playerCount, final int randomSeed, final int randomlyScenarioCells, final int lines, final int columns){
 		_playerCount = playerCount;
 		_randomSeed = randomSeed;
 		_randomlyScenarioCells = randomlyScenarioCells;
 		_lines = lines;
 		_columns = columns;
 		_player = 1;
+	}
+	
+	public void setServerGame(final Game game){	
+		this.serverGame = game;
 	}
 	
 	@Override

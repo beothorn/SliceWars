@@ -38,11 +38,12 @@ public class SkypeBridge implements ApplicationListener {
     	localGame.addRemotePlayer(new SkypePlayer(stream));
     	if(isClient()){
     		SkypeServerGame game = new SkypeServerGame(stream);
-			localGame.setServerGame(game,_invitedNames.size()+1,randomSeed,randomScenariosCellsCount,lines,columns);
+    		localGame.setServerGame(game);
     	}
     	if(isServer()){
     		String idStartingOnOne = stream.getId()+1;
 			String firstPlayerIsServer = idStartingOnOne + 1;
+			localGame.setGameSettings(_invitedNames.size()+1,randomSeed,randomScenariosCellsCount,lines,columns);
 			Invitation invitation = new Invitation(randomSeed, _invitedNames, _invitedNames.indexOf(firstPlayerIsServer), lines, columns, randomScenariosCellsCount);
 			SkypeApp.sendMessageThroughStream(invitation, stream);
     	}
