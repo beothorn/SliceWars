@@ -21,12 +21,12 @@ public class LocalGame implements Game{
 	private Game serverGame;
 	private String _id;
 	private Map<String, Boolean> answersToInvites = new LinkedHashMap<>();
-	private int playerCount;
-	private int player;
-	private int randomSeed;
-	private int randomlyScenarioCells;
-	private int lines;
-	private int columns;
+	private int _playerCount;
+	private int _player;
+	private int _randomSeed;
+	private int _randomlyScenarioCells;
+	private int _lines;
+	private int _columns;
 
 	public LocalGame(final Broadcaster broadcaster,final String id) {
 		_broadcaster = broadcaster;
@@ -49,20 +49,28 @@ public class LocalGame implements Game{
 			serverGame.answerToTheInvitation(new AnswerToTheInvitation(_id,accepted));
 			return;
 		}
-		playerCount = invitation.getPlayersCount();
-		player = invitation.getPlayerNumber();
-		randomSeed = invitation.getRandomSeed();
-		randomlyScenarioCells = invitation.getRandomlyScenarioCells();
-		lines = invitation.getLines();
-		columns = invitation.getColumns();
+		_playerCount = invitation.getPlayersCount();
+		_player = invitation.getPlayerNumber();
+		_randomSeed = invitation.getRandomSeed();
+		_randomlyScenarioCells = invitation.getRandomlyScenarioCells();
+		_lines = invitation.getLines();
+		_columns = invitation.getColumns();
 	}
 
 	public void addRemotePlayer(final GameMessageListener player) {
 		_broadcaster.addRemotePlayer(player);
 	}
+	
 
-	public void setServerGame(Game game){		
+	public void setServerGame(final Game game, final int playerCount, final int randomSeed, final int randomlyScenarioCells, final int lines, final int columns){	
+		
 		this.serverGame = game;
+		_playerCount = playerCount;
+		_randomSeed = randomSeed;
+		_randomlyScenarioCells = randomlyScenarioCells;
+		_lines = lines;
+		_columns = columns;
+		_player = 1;
 	}
 	
 	@Override
@@ -85,7 +93,7 @@ public class LocalGame implements Game{
 			System.exit(0);
 		}
 			
-		GuiPlayer guiPlayer = new GuiPlayer(new Player(player, playerCount), _broadcaster, randomSeed , playerCount,lines,columns,randomlyScenarioCells);
+		GuiPlayer guiPlayer = new GuiPlayer(new Player(_player, _playerCount), _broadcaster, _randomSeed , _playerCount,_lines,_columns,_randomlyScenarioCells);
 		_broadcaster.setLocalPlayer(guiPlayer);
 	}
 

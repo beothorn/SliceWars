@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.swing.JOptionPane;
 
+import org.apache.commons.lang.UnhandledException;
+
 import com.skype.Application;
 import com.skype.Friend;
 import com.skype.Skype;
@@ -55,6 +57,14 @@ public class SkypeApp {
 		try {
 			return Skype.getProfile().getId();
 		} catch (SkypeException e) {throw new RuntimeException(e);}
+	}
+
+	public static void connectToIds(List<String> selectedValuesList) {
+		try {
+    		for (String contactId : selectedValuesList) {
+            	application.connect(contactId);
+    		}
+		} catch (SkypeException e){throw new UnhandledException(e);}
 	}
 
 }

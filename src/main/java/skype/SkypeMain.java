@@ -1,7 +1,7 @@
 package skype;
 
 import java.util.List;
-import org.apache.commons.lang.UnhandledException;
+
 import sliceWars.remote.ContactListFrame;
 import sliceWars.remote.ContactListFrame.ContactListSelected;
 
@@ -16,20 +16,16 @@ public class SkypeMain {
 		final ContactListFrame contactListFrame = new ContactListFrame(SkypeApp.getContacts());
 		
 		final Application application = SkypeApp.getApp();
-		final SkypeBridge listener = new SkypeBridge(SkypeApp.getOwnId());
+		final SkypeBridge skypeBridge = new SkypeBridge(SkypeApp.getOwnId());
         
         contactListFrame.setContactListSelectedListener(new ContactListSelected(){@Override public void selected(List<String> selectedValuesList) {
         	contactListFrame.close();
-        	listener.setServer();
-        	listener.setInvited(selectedValuesList);
-        	try {
-        		for (String contactId : selectedValuesList) {
-                	application.connect(contactId);
-        		}
-			} catch (SkypeException e){throw new UnhandledException(e);}
+        	skypeBridge.setServer();
+        	skypeBridge.setInvited(selectedValuesList);
+        	SkypeApp.connectToIds(selectedValuesList);
 		}});
         
-		application.addApplicationListener(listener);
+		application.addApplicationListener(skypeBridge);
         
 	}
 }

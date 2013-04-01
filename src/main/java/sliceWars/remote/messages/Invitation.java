@@ -28,7 +28,7 @@ public class Invitation implements Serializable{
 	}
 
 	public int getPlayersCount() {
-		return _playerList.size();
+		return _playerList.size()+1;
 	}
 
 	public int getLines() {
