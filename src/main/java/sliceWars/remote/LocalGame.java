@@ -55,6 +55,8 @@ public class LocalGame implements Game{
 		_randomlyScenarioCells = invitation.getRandomlyScenarioCells();
 		_lines = invitation.getLines();
 		_columns = invitation.getColumns();
+		boolean accepted = true;
+		serverGame.answerToTheInvitation(new AnswerToTheInvitation(_id,accepted));
 	}
 
 	public void addRemotePlayer(final GameMessageListener player) {
@@ -95,6 +97,10 @@ public class LocalGame implements Game{
 			System.exit(0);
 		}
 			
+		showGameFrameAndSetAsLocalGame();
+	}
+
+	private void showGameFrameAndSetAsLocalGame() {
 		GuiPlayer guiPlayer = new GuiPlayer(new Player(_player, _playerCount), _broadcaster, _randomSeed , _playerCount,_lines,_columns,_randomlyScenarioCells);
 		_broadcaster.setLocalPlayer(guiPlayer);
 	}

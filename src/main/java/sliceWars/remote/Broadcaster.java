@@ -49,7 +49,6 @@ public class Broadcaster implements GameMessageListener{
 		for (GameMessageListener player : remotePlayers) {
 			player.allPlayersInviteResult(allPlayersInvitesResult);
 		}
-		local.allPlayersInviteResult(allPlayersInvitesResult);
 	}
 
 	public int getPlayerCount() {
