@@ -42,7 +42,7 @@ public class SkypeBridge implements ApplicationListener {
     		localGame.setServerGame(game);
     	}
     	if(isServer()){
-    		int invitedIndexOnIntedList = _invitedNames.indexOf(stream.getId());
+    		int invitedIndexOnIntedList = _invitedNames.indexOf(stream.getFriend().getId());
 			int idStartingOnOne = invitedIndexOnIntedList+1;
     		int firstPlayerIsServer = idStartingOnOne + 1;
 			localGame.setGameSettings(_invitedNames.size()+1,randomSeed,randomScenariosCellsCount,lines,columns);
